@@ -1,0 +1,136 @@
+#Data Science Bootcamp 
+#DAY 2 
+
+
+import numpy as np
+import pandas as pd
+
+print("=" * 60)
+print("NUMPY QUESTIONS")
+print("=" * 60)
+
+# Question 1: Stack arrays vertically and horizontally
+print("\n1. Stacking arrays vertically and horizontally")
+print("-" * 50)
+
+# Define custom arrays
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+B = np.array([[7, 8, 9],
+              [10, 11, 12]])
+
+print("Array A:")
+print(A)
+print("\nArray B:")
+print(B)
+
+# Vertical stacking (vstack or row-wise)
+vertical_stack = np.vstack((A, B))
+print("\nVertical Stack:")
+print(vertical_stack)
+
+# Horizontal stacking (hstack or column-wise)
+horizontal_stack = np.hstack((A, B))
+print("\nHorizontal Stack:")
+print(horizontal_stack)
+
+
+# Question 2: Find common elements
+print("\n\n2. Find common elements between A and B")
+print("-" * 50)
+
+# Flatten arrays and find intersection
+common_elements = np.intersect1d(A, B)
+print(f"Common elements: {common_elements}")
+
+
+# Question 3: Extract numbers within a specific range
+print("\n\n3. Extract numbers from A within range [5, 10]")
+print("-" * 50)
+
+# Method 1: Using np.where()
+indices = np.where((A >= 5) & (A <= 10))
+numbers_in_range_method1 = A[indices]
+print(f"Using np.where(): {numbers_in_range_method1}")
+
+# Method 2: Using boolean mask (more common)
+mask = (A >= 5) & (A <= 10)
+numbers_in_range_method2 = A[mask]
+print(f"Using boolean mask: {numbers_in_range_method2}")
+
+
+# Question 4: Filter iris dataset rows
+print("\n\n4. Filter iris_2d rows (petallength > 1.5 AND sepallength < 5.0)")
+print("-" * 50)
+
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+iris_2d = np.genfromtxt(url, delimiter=',', dtype='float', usecols=[0,1,2,3])
+
+# Create boolean mask for filtering
+# Column 0: sepal length, Column 2: petal length
+condition = (iris_2d[:, 2] > 1.5) & (iris_2d[:, 0] < 5.0)
+filtered_iris = iris_2d[condition]
+
+print(f"Original shape: {iris_2d.shape}")
+print(f"Filtered shape: {filtered_iris.shape}")
+print(f"\nFirst 5 filtered rows:")
+print(filtered_iris[:5])
+
+
+print("\n\n" + "=" * 60)
+print("PANDAS QUESTIONS")
+print("=" * 60)
+
+# Question 5: Filter specific columns for every 20th row
+print("\n5. Filter 'Manufacturer', 'Model', 'Type' for every 20th row")
+print("-" * 50)
+
+df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')
+
+# Select every 20th row starting from row 0 (0, 20, 40, ...)
+filtered_df = df.loc[::20, ['Manufacturer', 'Model', 'Type']]
+print(filtered_df)
+
+
+# Question 6: Replace missing values with mean
+print("\n\n6. Replace missing values in Min.Price and Max.Price with mean")
+print("-" * 50)
+
+df = pd.read_csv('https://raw.githubusercontent.com/selva86/datasets/master/Cars93_miss.csv')
+
+print("Missing values before:")
+print(f"Min.Price: {df['Min.Price'].isna().sum()}")
+print(f"Max.Price: {df['Max.Price'].isna().sum()}")
+
+# Calculate means and fill missing values
+df['Min.Price'].fillna(df['Min.Price'].mean(), inplace=True)
+df['Max.Price'].fillna(df['Max.Price'].mean(), inplace=True)
+
+print("\nMissing values after:")
+print(f"Min.Price: {df['Min.Price'].isna().sum()}")
+print(f"Max.Price: {df['Max.Price'].isna().sum()}")
+
+print(f"\nFirst 10 rows of Min.Price and Max.Price:")
+print(df[['Min.Price', 'Max.Price']].head(10))
+
+
+# Question 7: Get rows with row sum > 100
+print("\n\n7. Get rows with row sum > 100")
+print("-" * 50)
+
+df = pd.DataFrame(np.random.randint(10, 40, 60).reshape(-1, 4))
+
+print("DataFrame:")
+print(df)
+
+# Calculate row sum
+row_sums = df.sum(axis=1)
+print(f"\nRow sums:")
+print(row_sums)
+
+# Filter rows where sum > 100
+filtered_rows = df[row_sums > 100]
+print(f"\nRows with sum > 100:")
+print(filtered_rows)
+print(f"\nNumber of rows with sum > 100: {len(filtered_rows)}")
+
